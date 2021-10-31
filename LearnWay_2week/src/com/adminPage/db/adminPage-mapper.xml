@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.member.mapper">
+	
+	<resultMap type="learnDto" id="learnMap">
+		<result property="class_no" column="CLASS_NO"/>
+		<result property="class_title" column="CLASS_TITLE"/>
+		<result property="class_writer" column="CLASS_WRITER"/>
+		<result property="class_content" column="CLASS_CONTENT"/>
+		<result property="class_price" column="CLASS_PRICE"/>
+		<result property="class_count" column="CLASS_COUNT"/>
+		<result property="class_startdate" column="CLASS_STARTDATE"/>
+		<result property="class_lastdate" column="CLASS_LASTDATE"/>
+		<result property="class_tag" column="CLASS_TAG"/>
+		<result property="class_eventcheck" column="CLASS_EVENTCHECK"/>
+		<result property="class_eventprice" column="CLASS_EVENTPRICE"/>
+		<result property="class_eventstartdate" column="CLASS_EVENTSTARTDATE"/>
+		<result property="class_eventlastdate" column="CLASS_EVENTLASTDATE"/>
+	</resultMap>
+	
+	<resultMap type="adminPageDto" id="loginMap">
+		<result property="member_no" column="MEMBER_NO"/>
+		<result property="member_id" column="MEMBER_ID"/>
+		<result property="member_pw" column="MEMBER_PW"/>
+		<result property="member_name" column="MEMBER_NAME"/>
+		<result property="member_birth" column="MEMEBER_BIRTH"/>
+		<result property="member_platform" column="MEMBER_PLATFORM"/>
+		<result property="member_addr" column="MEMBER_ADDR"/>
+		<result property="member_phone" column="MEMBER_PHONE"/>
+		<result property="member_email" column="MEMBER_EMAIL"/>
+		<result property="member_gender" column="MEMBER_GENDER"/>
+		<result property="member_select" column="MEMBER_SELECT"/>
+		<result property="member_question" column="MEMBER_QUESTION"/>
+		<result property="member_answer" column="MEMBER_ANSWER"/>
+		<result property="member_del" column="MEMBER_DEL"/>
+		<result property="member_regdate" column="MEMBER_REGDATE"/>
+	</resultMap>
+	
+	<select id="selectList" resultMap="loginMap">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_PW, MEMBER_NAME, MEMEBER_BIRTH, MEMBER_ADDR, MEMBER_PHONE,
+			   MEMBER_EMAIL, MEMBER_GENDER, MEMBER_SELECT, MEMBER_ANSWER, MEMBER_DEL, MEMBER_REGDATE
+	    FROM MEMBER
+		ORDER BY MEMBER_NO 
+	</select>
+	
+	<select id="learnList" resultMap="learnMap">
+		SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, 
+		CLASS_COUNT, CLASS_STARTDATE, CLASS_LASTDATE, CLASS_TAG, CLASS_EVENTCHECK,
+		CLASS_EVENTPRICE, CLASS_EVENTSTARTDATE, CLASS_EVENTLASTDATE
+		FROM CLASS_BOARD ORDER BY CLASS_NO
+	</select>
+
+	<select id="adminCheck" parameterType="String" resultType="Int">
+		SELECT MEMBER_SELECT FROM MEMBER 
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+</mapper>

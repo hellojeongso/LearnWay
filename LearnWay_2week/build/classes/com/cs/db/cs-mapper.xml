@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.cs.mapper">
+
+	<resultMap type="CsDto" id="CsDto">
+		<result property="board_no" column="BOARD_NO"/>
+		<result property="board_id" column="BOARD_ID"/>
+		<result property="board_title" column="BOARD_TITLE"/>
+		<result property="board_content" column="BOARD_CONTENT"/>
+		<result property="board_group" column="BOARD_GROUP"/>
+		<result property="board_category" column="BOARD_CATEGORY"/>
+		<result property="board_date" column="BOARD_DATE"/>
+	</resultMap>
+
+
+  <select id="selectList" resultMap="CsDto">
+    	SELECT *
+    	FROM BOARD
+    	WHERE BOARD_CATEGORY = '1'
+    	ORDER BY BOARD_NO
+  </select>
+  
+  <insert id="insert" parameterType="CsDto">
+  		INSERT INTO BOARD
+  		VALUES(BOARD_SEQ.NEXTVAL, BOARDGROUP_SEQ.NEXTVAL, 0, #{board_id}, #{board_title}, #{board_content},1, SYSDATE)
+  	
+  </insert>
+  
+   <select id="selectOne" parameterType="int" resultType="CsDto">
+  		SELECT BOARD_NO, BOARD_ID,BOARD_GROUP, BOARD_TITLE, BOARD_CONTENT, BOARD_DATE
+  		FROM BOARD
+  		WHERE BOARD_NO = #{board_no}
+  </select>
+  
+    <update id="update" parameterType="hashMap">
+  		UPDATE BOARD
+  		SET BOARD_TITLE = #{item2}, BOARD_CONTENT = #{item3}
+  		WHERE BOARD_NO = #{item1}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+ 		DELETE FROM BOARD
+ 		WHERE BOARD_NO = #{board_no}
+  </delete>
+  
+  	<update id="answerupdate" parameterType="hashMap">
+  		UPDATE BOARD
+		SET BOARD_GROUP = BOARD_GROUP+1
+		WHERE BOARDGROUP_NO = (SELECT BOARDGROUP_NO FROM BOARD WHERE BOARD_NO = #{board_no})
+		AND BOARD_GROUP > (SELECT BOARD_GROUP FROM BOARD WHERE BOARD_NO = #{board_no})
+  	</update>
+  
+   <insert id="answerinsert" parameterType="Map">
+  		INSERT INTO BOARD VALUES(
+  		BOARD_SEQ.NEXTVAL, 
+		(SELECT BOARD_NO FROM BOARD WHERE BOARD_NO=#{boardgroup_no}), 
+		(SELECT BOARD_GROUP+1 FROM BOARD WHERE BOARD_NO=#{boardgroup_no}), 
+		#{board_id}, #{board_title}, #{board_content}, 1, SYSDATE)
+  </insert>
+
+  <select id="searchlist" parameterType="String" resultMap="CsDto">
+    	SELECT *
+    	FROM BOARD
+    	WHERE BOARD_CATEGORY = '1' AND BOARD_TITLE LIKE '%' || #{text} || '%'
+    	ORDER BY BOARD_NO DESC
+  </select>
+  
+</mapper>

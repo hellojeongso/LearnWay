@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.lesson.mapper">
+     <resultMap type="LessonDto" id="LessonMap">
+         <result property="class_no" column="CLASS_NO"/>
+         <result property="class_tag" column="CLASS_TAG"/>
+         <result property="class_title" column="CLASS_TITLE"/>
+         <result property="class_writer" column="CLASS_WRITER"/>
+         <result property="class_content" column="CLASS_CONTENT"/>
+         <result property="class_price" column="CLASS_PRICE"/>
+         <result property="class_count" column="CLASS_COUNT"/>
+         <result property="class_startdate" column="CLASS_STARTDATE"/>
+         <result property="class_lastdate" column="CLASS_LASTDATE"/>
+         <result property="class_eventcheck" column="CLASS_EVENTCHECK"/>
+         <result property="class_eventprice" column="CLASS_EVENTPRICE"/>
+         <result property="class_eventstartdate" column="CLASS_EVENTSTARTDATE"/>
+         <result property="class_eventlastdate" column="CLASS_EVENTLASTDATE"/>
+ 		 <result property="class_view" column="CLASS_VIEW"/>
+	</resultMap>
+	
+	    <select id="selectList"   resultMap="LessonMap"> <!--  강의에 대한 모든 리스트 --> <!-- 결과값의 형태  -->
+			  SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_STARTDATE, CLASS_LASTDATE,
+		      FROM CLASS_BOARD
+		      ORDER BY CLASS_NO DESC
+		</select>
+		
+		<!-- 강의게시판 리스트 -->
+		<select id="classList" parameterType="int" resultMap="LessonMap"> 
+			  SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_STARTDATE, CLASS_LASTDATE, CLASS_EVENTPRICE,CLASS_EVENTSTARTDATE,CLASS_EVENTLASTDATE
+		      FROM CLASS_BOARD
+ 			  WHERE CLASS_TAG = #{class_tag}
+		      ORDER BY CLASS_NO DESC
+		</select>
+		
+		<!-- 인기 강의 리스트 -->
+		<select id="viewList" parameterType="int" resultMap="LessonMap"> 
+			  SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_STARTDATE, CLASS_LASTDATE, CLASS_EVENTPRICE,CLASS_EVENTSTARTDATE,CLASS_EVENTLASTDATE
+		      FROM CLASS_BOARD
+		      ORDER BY CLASS_VIEW DESC
+		</select>
+		
+		
+		<!-- 이벤트게시판 리스트 -->
+		<select id="eventList" resultMap="LessonMap"> 
+			  SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_STARTDATE, CLASS_LASTDATE, CLASS_EVENTPRICE,CLASS_EVENTSTARTDATE,CLASS_EVENTLASTDATE
+		      FROM CLASS_BOARD
+			  WHERE CLASS_EVENTCHECK = 1
+		      ORDER BY CLASS_NO DESC
+		</select>
+		
+		<!-- 강의 검색 -->
+		<select id="classSearch" parameterType="String" resultMap="LessonMap">
+	    	SELECT *
+	    	FROM CLASS_BOARD
+	    	WHERE CLASS_TITLE LIKE '%' || #{text} || '%'
+	    	ORDER BY CLASS_NO DESC
+  		</select>
+		
+		<!-- select했을 때 강의 전체내용 / 강의 상페이지 하나만 -->         <!--  selectone 에서    resultMap = "LessonMap" 를 resultType = "LessonDto"로 대체가능.  -->
+		<select id="selectOne" parameterType="int"  resultMap = "LessonMap">  
+		  SELECT CLASS_TAG, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_COUNT, CLASS_STARTDATE,CLASS_LASTDATE,
+		  CLASS_EVENTCHECK, CLASS_EVENTPRICE, CLASS_EVENTSTARTDATE, CLASS_EVENTLASTDATE
+		  FROM CLASS_BOARD
+		  WHERE CLASS_NO = #{no}
+		</select>
+		
+		
+		 <!-- 한강사의모든 강의    --> 
+		 <select id="select_tchlist" parameterType="String" resultMap="LessonMap">
+              SELECT CLASS_NO, CLASS_TITLE, CLASS_WRITER, CLASS_CONTENT, CLASS_PRICE, CLASS_STARTDATE, CLASS_LASTDATE
+		      FROM CLASS_BOARD
+		      WHERE CLASS_WRITER = #{class_writer}
+		      ORDER BY CLASS_NO DESC		 
+		 </select>
+		 
+		 
+		 
+		 <!--  강의 등록 --> <!-- tag가  -->
+		<insert id="insert"  parameterType="LessonDto"> <!--resulttype 이 없는 이유 무조건 인트값이니까! batis에서 resulttype을 인트로 정해줫으니가!-->
+	 	  INSERT INTO CLASS_BOARD
+	 	  VALUES(CLASSBOARD_SEQ.NEXTVAL, #{class_tag}, #{class_title},#{class_writer},#{class_content},
+	 	        #{class_price},0 ,#{class_count},#{class_startdate},#{class_lastdate},#{class_eventcheck},
+	 	        #{class_eventprice},#{class_eventstartdate},#{class_eventlastdate})
+		</insert>
+	  
+	    <update id="update" parameterType="LessonDto">
+		    UPDATE CLASS_BOARD
+		    SET CLASS_STARTDATE =#{class_startdate} , CLASS_LASTDATE =#{class_lastdate}, CLASS_PRICE =#{class_price}, CLASS_COUNT =#{class_count}, CLASS_EVENTCHECK =#{class_eventcheck}, CLASS_EVENTPRICE =#{class_eventprice} , CLASS_EVENTSTARTDATE =#{class_eventstartdate}, CLASS_EVENTLASTDATE = #{class_eventlastdate}
+		    WHERE CLASS_NO = #{class_no}
+	    </update>
+
+		<update id="viewupdate" parameterType="String">
+			UPDATE CLASS_BOARD
+			SET CLASS_VIEW = CLASS_VIEW+1
+			WHERE CLASS_TITLE = #{title}
+		</update>
+	    
+		<delete id="delete" parameterType="int">
+			DELETE FROM CLASS_BOARD
+			WHERE CLASS_NO = #{class_no}
+		</delete>
+  
+  </mapper>
+  
+  

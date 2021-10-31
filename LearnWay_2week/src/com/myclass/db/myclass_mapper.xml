@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myclass.mapper">
+
+	<resultMap id="MyclassMap" type="MyclassDto">
+		<result property="myclass_no" column="MYCLASS_NO"/>
+		<result property="class_no" column="CLASS_NO"/>
+		<result property="class_title" column="CLASS_TITLE"/>
+		<result property="class_writer" column="CLASS_WRITER"/>
+		<result property="class_startdate" column="CLASS_STARTDATE"/>
+		<result property="class_lastdate" column="CLASS_LASTDATE"/>
+		<result property="member_id" column="MEMBER_ID"/>
+	</resultMap>
+
+	<select id="myclassList" resultMap="MyclassMap">
+		SELECT MYCLASS_NO,CLASS_NO,CLASS_TITLE,CLASS_WRITER,CLASS_STARTDATE,CLASS_LASTDATE,MEMBER_ID
+		FROM MYCLASS
+		WHERE MEMBER_ID =#{member_id}
+	</select>
+	
+	<select id="sugang" parameterType="hashMap" resultType="String">
+		SELECT CLASS_TITLE
+		FROM MYCLASS
+		WHERE CLASS_NO=#{item1} AND MEMBER_ID=#{item2}
+	</select>
+	
+	<insert id="myclassInsert" parameterType="MyclassDto">
+		INSERT INTO MYCLASS
+		VALUES(MYCLASS_SEQ.NEXTVAL,#{class_no},#{class_title},#{class_writer},#{class_startdate},#{class_lastdate},#{member_id})
+	</insert>
+
+</mapper>

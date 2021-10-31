@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.webrtc.mapper">
+
+	<resultMap type="WebrtcDto" id="WebrtcMap">
+		<result property="class_title" column="CLASS_TITLE"/>
+		<result property="webrtc_link" column="WEBRTC_LINK"/>
+	</resultMap>
+
+   <select id="selectOne" parameterType="String" resultType="String">
+  		SELECT WEBRTC_LINK
+  		FROM WEBRTC
+  		WHERE CLASS_TITLE = #{class_title}
+  </select>
+  
+  <insert id="webrtcinsert" parameterType="WebrtcDto">
+  		INSERT INTO WEBRTC
+  		VALUES(#{class_title}, #{webrtc_link})
+  </insert>
+ 
+ <update id="webrtcupdate" parameterType="hashMap">
+        UPDATE WEBRTC
+        SET WEBRTC_LINK = #{item2}
+        WHERE CLASS_TITLE = #{item1}
+  </update>
+  
+  
+</mapper>

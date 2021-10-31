@@ -1,0 +1,162 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+	font-family: "Noto Sans KR", sans-serif;
+}
+
+html {
+   font-size:20px;
+}
+
+body {
+   font-size:1rem;
+}
+
+.regist_area {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.sidenav {
+	width: 50%;
+	background-size: cover;
+    background-image:url("../resources/image/background.jpg");
+}
+
+.main {
+	width: 50%;
+	margin: 0.2rem 1rem;
+}
+
+.form-group {
+	font-size:0.7rem;
+	margin-top:0.2rem;
+}
+
+.form-group input[type=radio]{
+	display:none;
+}
+
+.form-group input[type=radio] + label{
+	display:inline-block;
+    cursor: pointer;
+    height: 1.4rem;
+    width: 85px;
+    border: 1px solid #d8d3cd;
+    line-height: 24px;
+    text-align: center;
+    font-weight:bold;
+    font-size:13px;
+}
+
+.form-group input[type=radio]:checked + label{
+	border:1px solid #d8d3cd;
+	background:#d8d3cd;
+	color:#fff;
+}
+
+#or_select {
+	margin-bottom: 0.5rem;
+}
+
+#question_form {
+	border:#d8d3cd 1px solid; 
+   	border-radius:5px; 
+   	height: 1.4rem; 
+   	width: 300px;
+   	margin-bottom: 7px;
+   	padding-left: 3px;
+}
+
+#answer {
+	display:block;
+}
+
+input[type='text'] {
+   border:#d8d3cd 1px solid; 
+   border-radius:5px; 
+   height: 1.3rem; 
+   width: 300px;
+   margin-bottom: 7px;
+   padding-left: 3px;
+}
+
+input[type='password'] {
+   border:#d8d3cd 1px solid; 
+   border-radius:5px; 
+   height: 1.3rem; 
+   width: 300px;
+   margin-bottom: 7px;
+   padding-left: 3px;
+}
+
+#regist_bt {
+    width: 100px; 
+    height: 1.3rem; 
+    background-color: #d8d3cd; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    border: #d8d3cd 1px solid; 
+    cursor: pointer; 
+    margin-bottom: 7px;
+}
+
+#back_bt {
+    width: 100px; 
+    height: 1.3rem; 
+    background-color: white; 
+    color: black; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    border: black 1px solid; 
+    cursor: pointer; 
+    margin-bottom: 7px;
+}
+
+#check_bt {
+    width: 80px; 
+    height: 1.3rem; 
+    background-color: #d8d3cd; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    border: #d8d3cd 1px solid; 
+    cursor: pointer; 
+    margin-bottom: 7px;
+}
+
+#find_bt {
+    width: 100px; 
+    height: 1.3rem; 
+    background-color: #d8d3cd; 
+    color: white; 
+    font-weight: bold; 
+    font-size: 0.75rem; 
+    border: #d8d3cd 1px solid; 
+    cursor: pointer; 
+    margin-bottom: 7px;
+
+}
+
+.home > img {
+	display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+  .sidenav {
+  	display: none;
+ 	}
+  
+  .home > img {
+	display: block;
+	width: 50%;
+	margin: 0.8rem 0 0.8rem 0;
+	}
+
+
+}

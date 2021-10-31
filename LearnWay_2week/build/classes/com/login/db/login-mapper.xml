@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.login.mapper">
+	<resultMap type="loginDto" id="loginMap">
+		<result property="member_no" column="MEMBER_NO"/>
+		<result property="member_id" column="MEMBER_ID"/>
+		<result property="member_pw" column="MEMBER_PW"/>
+		<result property="member_name" column="MEMBER_NAME"/>
+		<result property="member_birth" column="MEMBER_BIRTH"/>
+		<result property="member_platform" column="MEMBER_PLATFORM"/>
+		<result property="member_addr" column="MEMBER_ADDR"/>
+		<result property="member_phone" column="MEMBER_PHONE"/>
+		<result property="member_email" column="MEMBER_EMAIL"/>
+		<result property="member_gender" column="MEMBER_GENDER"/>
+		<result property="member_select" column="MEMBER_SELECT"/>
+		<result property="member_question" column="MEMBER_QUESTION"/>
+		<result property="member_answer" column="MEMBER_ANSWER"/>
+		<result property="member_del" column="MEMBER_DEL"/>
+		<result property="member_regdate" column="MEMBER_REGDATE"/>
+	</resultMap>
+	
+	<select id="selectList" resultMap="loginMap">
+		SELECT MEMBER_NO , MEMBER_ID , MEMBER_PW, MEMBER_NAME , MEMBER_BIRTH , MEMBER_ ADDR , MEMBER_PHONE
+			   MEMBER_EMAIL , MEMBER_GENDER , MEMBER_SELECT , MEMBER_ANSWER , MEMBER_DEL , MEMBER_REGDATE
+	    FROM MEMBER
+		ORDER BY MEMBER_NO DESC 
+	</select>
+	
+	<insert id="insert2" parameterType="loginDto">
+		INSERT INTO MEMBER
+		VALUES(MEMBER_SEQ.NEXTVAL,#{member_id},#{member_pw},#{member_name},#{member_birth},#{member_platform},#{member_addr},#{member_phone},#{member_email},#{member_gender},#{member_select},#{member_question},#{member_answer},0,SYSDATE)
+	</insert>
+	
+	<insert id="insert" parameterType="loginDto">
+		INSERT INTO MEMBER
+		VALUES(MEMBER_SEQ.NEXTVAL,#{member_id},#{member_pw},#{member_name},#{member_birth},NULL,#{member_addr},#{member_phone},#{member_email},#{member_gender},#{member_select},#{member_question},#{member_answer},0,SYSDATE)
+	</insert>
+	
+	<select id="idcheck" parameterType="String" resultType="String">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="findid" parameterType="hashMap" resultType="String">
+		SELECT MEMBER_ID
+		FROM MEMBER
+		WHERE MEMBER_NAME=#{item1} AND MEMBER_EMAIL=#{item2}
+	</select>
+		<select id="findpw" parameterType="hashMap" resultType="String">
+		SELECT MEMBER_PW
+		FROM MEMBER
+		WHERE MEMBER_NAME=#{item1} AND MEMBER_EMAIL=#{item2} AND MEMBER_QUESTION=#{item3} AND MEMBER_ANSWER=#{item4}
+	</select>
+	
+	<delete id="delete" parameterType="loginDto">
+		DELETE FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+	</delete>
+	
+	
+	<select id="login" parameterType="hashMap" resultType="loginDto">
+		SELECT *
+		FROM MEMBER
+	    WHERE MEMBER_ID = #{item1} AND MEMBER_PW = #{item2}
+	</select>
+	
+	
+	<select id="loginCheck" parameterType="hashMap" resultType="Integer">
+		SELECT COUNT(*)	   
+	    FROM MEMBER
+	    WHERE MEMBER_ID = #{item1} AND MEMBER_PW = #{item2}
+	    
+	</select>
+	
+	<select id="selectcheck" parameterType="String" resultType="String">
+		SELECT MEMBER_SELECT
+		FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<select id="mypageView" parameterType="String" resultMap="loginMap">
+		SELECT *
+	    FROM MEMBER
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	<update id="mypageupdate" parameterType="hashMap"> 
+	 	UPDATE MEMBER 
+	    SET MEMBER_NAME = #{item2},MEMBER_PHONE = #{item3},MEMBER_ADDR= #{item4}
+	    WHERE MEMBER_ID = #{item1}
+	</update>
+	
+	<update id="memberdel" parameterType="String">
+	   UPDATE MEMBER
+	   SET MEMBER_DEL = '1'
+	   WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	<select id="mapList" resultMap="loginMap">
+		SELECT MEMBER_NAME,MEMBER_ADDR
+	    FROM MEMBER
+		WHERE MEMBER_SELECT = 1 
+	</select>
+	
+	
+	<select id="selectone" parameterType="Map" resultType="String"> 
+	SELECT MEMBER_ID
+	FROM MEMBER
+	WHERE MEMBER_PLATFORM = #{platform}
+	AND MEMBER_ID = #{email}
+	</select>
+	
+	
+	
+	
+
+</mapper>
+  

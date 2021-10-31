@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.media.mapper">
+
+	<resultMap id="MediaMap" type="MediaDto">
+		<result property="media_no" column="MEDIA_NO"/>
+		<result property="class_title" column="CLASS_TITLE"/>
+		<result property="media_extension" column="MEDIA_EXTENSION"/>
+		<result property="media_path" column="MEDIA_PATH"/>
+	</resultMap>
+	
+	<select id="videoList" resultMap="MediaMap">
+		SELECT MEDIA_PATH
+		FROM MEDIA
+		WHERE CLASS_TITLE = #{class_title} AND MEDIA_EXTENSION = 'video'
+	</select>
+	
+	<select id="mediaOne" resultMap="MediaMap">
+		SELECT MEDIA_PATH
+		FROM MEDIA
+		WHERE CLASS_TITLE = #{class_title} AND MEDIA_EXTENSION = 'photo'
+	</select>
+	
+	<insert id="mediainsert" parameterType="MediaDto">
+		INSERT INTO MEDIA
+		VALUES(MEDIA_SEQ.NEXTVAL,#{class_title},#{media_extension},#{media_path})
+	</insert>
+
+</mapper>
